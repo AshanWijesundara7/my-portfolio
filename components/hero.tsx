@@ -20,7 +20,7 @@ export function Hero() {
 
         {/* Main Name - Large and Bold */}
         <h1 className="text-7xl md:text-8xl font-heading font-bold uppercase tracking-tight leading-none">
-          ASHAN MALIDU<br />WIJESUNDARA
+          ASHAN<br />WIJESUNDARA
         </h1>
 
         {/* Subtitle */}
