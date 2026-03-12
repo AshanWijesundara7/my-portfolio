@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',       // enables static HTML export
+  output: 'export',
   images: {
-    unoptimized: true,    // allows next/image without server
+    unoptimized: true,
+  },
+  turbopack: {
+    root: '.',
   },
 };
 
