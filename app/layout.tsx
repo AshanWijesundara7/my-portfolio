@@ -18,7 +18,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "AMW",
   description: "Building scalable systems, clean code, and immersive digital experiences.",
-    
+  icons: {
+    icon: "/me.jpeg",
+  },
 }
 
 export default function RootLayout({
