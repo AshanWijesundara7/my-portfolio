@@ -37,7 +37,7 @@ export function Contact() {
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="pt-12">
           <a
-            href="/Ashan Wijesundara resume.pdf"
+            href="/Ashan-Wijesundara-resume.pdf"
             download
             className="inline-flex items-center gap-4 px-12 py-5 font-heading font-bold uppercase tracking-widest transition-all duration-300 group border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground dark:border-foreground dark:bg-foreground dark:text-background dark:hover:bg-background dark:hover:text-foreground"
           >
