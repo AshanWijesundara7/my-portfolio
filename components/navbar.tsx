@@ -32,7 +32,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           {/* Left - Logo */}
           <div className="flex items-center gap-2">
-            <span className="font-heading font-bold uppercase tracking-wider text-base sm:text-lg">MM.</span>
+            <span className="font-heading font-bold uppercase tracking-wider text-base sm:text-lg">AMW.</span>
           </div>
 
           {/* Center - Pill Navigation (Hidden on Mobile) */}
@@ -50,7 +50,7 @@ export function Navbar() {
 
           {/* Right - CV Button, Theme Toggle, Hamburger */}
           <div className="flex items-center gap-2 sm:gap-4">
-            
+
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
