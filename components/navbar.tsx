@@ -16,7 +16,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navItems = ["About", "Skills", "Projects", "Education", "Contact"]
+  const navItems = ["About", "Skills", "Projects", "Contact"]
 
   const handleNavClick = () => {
     setMobileMenuOpen(false)
@@ -50,14 +50,7 @@ export function Navbar() {
 
           {/* Right - CV Button, Theme Toggle, Hamburger */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <a
-              href="/resume.pdf"
-              download
-              className="hidden sm:flex items-center gap-2 bg-foreground text-background px-4 sm:px-6 py-2 rounded-full font-sans text-xs sm:text-sm font-semibold uppercase tracking-wide hover:bg-background hover:text-foreground hover:border hover:border-foreground transition-all duration-300"
-            >
-              <Download size={16} /> <span className="hidden sm:inline">CV</span>
-            </a>
-
+            
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
