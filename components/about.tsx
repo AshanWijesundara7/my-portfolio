@@ -24,7 +24,7 @@ export function About() {
 
           <div className="pt-8 grid grid-cols-2 md:grid-cols-3 gap-6">
             {[
-              { label: "Years Experience", value: "0" },
+              { label: "Years Experience", value: "N/A" },
               { label: "Projects Completed", value: "5+" },
               { label: "Technologies", value: "5+" },
             ].map((stat) => (
