@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "AMW",
   description: "Building scalable systems, clean code, and immersive digital experiences.",
   icons: {
-    icon: "/me.jpegn",
+    icon: "/me.jpeg",
   },
 }
 
