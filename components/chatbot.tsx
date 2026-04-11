@@ -40,7 +40,7 @@ export function Chatbot() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("https://my-portfolio-api-iota.vercel.app/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,7 +80,6 @@ export function Chatbot() {
             <div className="flex items-center justify-between p-4 border-b border-border/50 bg-muted/30">
               <div className="flex items-center gap-2">
                 <div className="w-9 h-9 rounded-full overflow-hidden bg-zinc-800/50 flex items-center justify-center shrink-0">
-                  {/* Replace /me.jpeg with your actual image path */}
                   <Image src="/bot.png" alt="Bot Avatar" width={36} height={36} className="w-full h-full object-cover" />
                 </div>
                 <div>
@@ -187,12 +186,11 @@ export function Chatbot() {
           </div>
         ) : (
           <div className="relative w-16 h-16 flex items-center justify-center">
-            {/* Floating 3D Image without background circle */}
-            <Image 
-              src="/bot.png" 
-              alt="Chat" 
-              width={80} 
-              height={80} 
+            <Image
+              src="/bot.png"
+              alt="Chat"
+              width={80}
+              height={80}
               className="object-contain scale-[1.3] hover:scale-[1.4] transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
             />
           </div>
