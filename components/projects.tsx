@@ -145,7 +145,7 @@ export function Projects() {
       <div
         ref={containerRef}
         className="relative flex items-center justify-center"
-        style={{ height: "460px" }}
+        style={{ height: "540px" }}
       >
         {projects.map((project, index) => {
           const { zIndex, x, scale, opacity, filter } = getStyle(index)
@@ -167,7 +167,7 @@ export function Projects() {
               onDragEnd={handleDragEnd}
               style={{
                 position: "absolute",
-                width: "min(660px, 85vw)",
+                width: "min(800px, 92vw)",
                 zIndex,
                 pointerEvents: isActive ? "auto" : "none",
                 cursor: isActive ? "grab" : "default",
@@ -176,7 +176,7 @@ export function Projects() {
               className="active:cursor-grabbing"
             >
               <div
-                className={`border p-8 md:p-10 transition-colors duration-500 ${
+                className={`border p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)] ${
                   isActive
                     ? "bg-card border-primary/40 shadow-2xl"
                     : "bg-card/30 border-border/20"
@@ -215,7 +215,7 @@ export function Projects() {
                     {project.title}
                   </h3>
 
-                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base line-clamp-4">
+                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base line-clamp-5">
                     {project.description}
                   </p>
 
@@ -271,7 +271,7 @@ export function Projects() {
       <div className="flex items-center justify-center gap-6 mt-10 px-6">
         <button
           onClick={goPrev}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-colors duration-300"
+          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
         >
           ← Prev
         </button>
@@ -297,7 +297,7 @@ export function Projects() {
 
         <button
           onClick={goNext}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-colors duration-300"
+          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
         >
           Next →
         </button>

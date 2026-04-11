@@ -27,7 +27,7 @@ export function Contact() {
               key={social.label}
               href={social.href}
               whileHover={{ y: -5 }}
-              className="flex flex-col items-center gap-3 p-6 bg-card/30 border border-border/50 hover:border-primary/50 transition-colors group"
+              className="flex flex-col items-center gap-3 p-6 bg-card/30 border border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
             >
               <social.icon size={24} className="group-hover:text-primary transition-colors" />
               <span className="text-[10px] uppercase tracking-[0.2em] font-heading">{social.label}</span>
@@ -39,7 +39,7 @@ export function Contact() {
           <a
             href="/AshanWijesundara.pdf"
             download
-            className="inline-flex items-center gap-4 px-12 py-5 font-heading font-bold uppercase tracking-widest transition-all duration-300 group border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground dark:border-foreground dark:bg-foreground dark:text-background dark:hover:bg-background dark:hover:text-foreground"
+            className="inline-flex items-center gap-4 px-12 py-5 font-heading font-bold uppercase tracking-widest transition-all duration-300 group border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground dark:border-foreground dark:bg-foreground dark:text-background dark:hover:bg-background dark:hover:text-foreground hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
           >
             Download Resume <ArrowRight className="group-hover:translate-x-2 transition-transform" />
           </a>

@@ -38,7 +38,7 @@ export function Hero() {
           {/* Primary Button */}
           <a
             href="#projects"
-            className="w-full sm:w-auto text-center px-8 py-3 bg-foreground text-background font-sans font-semibold uppercase tracking-wide text-sm hover:bg-background hover:text-foreground hover:border hover:border-foreground transition-all duration-300"
+            className="w-full sm:w-auto text-center px-8 py-3 bg-foreground text-background font-sans font-semibold uppercase tracking-wide text-sm hover:bg-background hover:text-foreground hover:border hover:border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
           >
             View Projects
           </a>
@@ -46,7 +46,7 @@ export function Hero() {
           {/* Secondary Button */}
           <a
             href="#contact"
-            className="w-full sm:w-auto text-center px-8 py-3 bg-background text-foreground border-2 border-foreground font-sans font-semibold uppercase tracking-wide text-sm hover:bg-foreground hover:text-background transition-all duration-300"
+            className="w-full sm:w-auto text-center px-8 py-3 bg-background text-foreground border-2 border-foreground font-sans font-semibold uppercase tracking-wide text-sm hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
           >
             Contact Me
           </a>
