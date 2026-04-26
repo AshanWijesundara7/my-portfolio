@@ -16,44 +16,44 @@ const teamMembers = [
         avatar: "AW",
     },
     {
-        name: "Member Two",
+        name: "Vihanga Randima",
         role: "Backend Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
-        avatar: "M2",
+        avatar: "VR",
     },
     {
-        name: "Member Three",
+        name: "Sandalli Kawmudi",
         role: "Frontend Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
-        avatar: "M3",
+        avatar: "SK",
     },
     {
-        name: "Member Four",
+        name: "Tishini Maneesha",
         role: "UI/UX Designer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
-        avatar: "M4",
+        avatar: "TM",
     },
     {
-        name: "Member Five",
+        name: "Sasini Yashoba",
         role: "Mobile Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
-        avatar: "M5",
+        avatar: "SY",
     },
     {
-        name: "Member Six",
+        name: "Tashmith Mesith",
         role: "QA Engineer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
-        avatar: "M6",
+        avatar: "TM",
     },
 ]
 
@@ -177,7 +177,7 @@ export default function ChargeupDetails() {
                         {/* Replace the src below with your actual YouTube embed or video URL */}
                         <iframe
                             className="absolute inset-0 w-full h-full"
-                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            src="https://www.instagram.com/reel/DWN-J7wjzqr/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
                             title="ChargeUp Demo Video"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
