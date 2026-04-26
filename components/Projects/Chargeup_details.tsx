@@ -171,22 +171,21 @@ export default function ChargeupDetails() {
                     className="space-y-6"
                 >
                     <h2 className="text-2xl md:text-4xl font-heading font-bold uppercase tracking-tight">
-                        Project <span className="text-primary">Demo</span>
+                        Marketing <span className="text-primary">Video</span>
                     </h2>
                     <div className="relative w-full aspect-video bg-card border border-border/40 overflow-hidden">
                         {/* Replace the src below with your actual YouTube embed or video URL */}
-                        <iframe
-                            className="absolute inset-0 w-full h-full"
-                            src="https://www.instagram.com/reel/DWN-J7wjzqr/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+                        <video
+                            className="absolute inset-0 w-full h-full object-cover"
+                            src="/marketing.mp4"
                             title="ChargeUp Demo Video"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
+                            controls
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
                         />
                     </div>
-                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground/50">
-                        ↑ Replace the YouTube embed URL with your actual demo video
-                    </p>
                 </motion.div>
             </section>
 
