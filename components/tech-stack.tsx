@@ -17,7 +17,7 @@ export function TechStack() {
           {skills.map((skill) => (
             <div
               key={skill.category}
-              className="group relative bg-background border border-border p-8 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
+              className="group relative bg-background border border-border p-8 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2"
             >
               <div className="absolute top-0 right-0 w-2 h-2 bg-primary/20 group-hover:bg-primary transition-colors" />
               <h3 className="text-primary font-heading uppercase text-xs tracking-widest mb-6 font-semibold">

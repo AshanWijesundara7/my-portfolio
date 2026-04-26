@@ -1,36 +1,40 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, ArrowRight } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 
-const projects = [
+export const projects = [
   {
-    title: "ChargeUp",
+    title: "ChargeUp Group Project",
+    slug: "chargeup",
     description:
       "A EV charging station finder application that helps electric vehicle users locate nearby charging stations quickly and easily. The platform provides real-time station information, navigation support, and station management features.",
     tags: ["React Native", "AWS", "MongoDB", "Google Maps API", "Stripe", "Postman"],
-    link: "",
-    github: "",
+    link: "https://chargeupsl.vercel.app/",
+    github: "https://github.com/AshanWijesundara7/ChargeUp2",
   },
   {
     title: "Estate Agent Website",
+    slug: "estate-agent",
     description:
       "Developed a responsive property listing platform featuring dynamic search filters and a clean, modern UI for browsing listings.",
     tags: ["React", "HTML", "CSS3"],
     link: "https://vivere-luxe.vercel.app",
-    github: "",
+    github: "https://github.com/AshanWijesundara7/estate-agent-website",
   },
   {
     title: "Traffic Data Analysis System",
+    slug: "traffic-data",
     description:
       "Engineered a data visualization tool using Python and Tkinter to analyze and display complex traffic patterns from datasets.",
     tags: ["Python", "Tkinter"],
     link: "",
-    github: "",
+    github: "https://github.com/AshanWijesundara7/Traffic-Data-Analysis-System",
   },
   {
     title: "Mobile App UI/UX Design – ChargeUp",
+    slug: "chargeup-ui",
     description:
       "Designed a complete mobile application UI including wireframes, user flows, and high-fidelity prototypes for the ChargeUp platform.",
     tags: ["Figma"],
@@ -72,7 +76,7 @@ export function Projects() {
     const onWheel = (e: WheelEvent) => {
       const isHorizontal =
         Math.abs(e.deltaX) > Math.abs(e.deltaY) * 0.5 || Math.abs(e.deltaX) > 8
-      
+
       if (!isHorizontal) return
       e.preventDefault()
 
@@ -145,7 +149,7 @@ export function Projects() {
       <div
         ref={containerRef}
         className="relative flex items-center justify-center"
-        style={{ height: "540px" }}
+        style={{ height: "660px" }}
       >
         {projects.map((project, index) => {
           const { zIndex, x, scale, opacity, filter } = getStyle(index)
@@ -167,7 +171,7 @@ export function Projects() {
               onDragEnd={handleDragEnd}
               style={{
                 position: "absolute",
-                width: "min(800px, 92vw)",
+                width: "min(960px, 96vw)",
                 zIndex,
                 pointerEvents: isActive ? "auto" : "none",
                 cursor: isActive ? "grab" : "default",
@@ -176,11 +180,10 @@ export function Projects() {
               className="active:cursor-grabbing"
             >
               <div
-                className={`border p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)] ${
-                  isActive
-                    ? "bg-card border-primary/40 shadow-2xl"
-                    : "bg-card/30 border-border/20"
-                }`}
+                className={`border p-10 md:p-14 transition-all duration-500 ${isActive
+                  ? "bg-card border-primary/40"
+                  : "bg-card/30 border-border/20"
+                  }`}
               >
                 {/* Inner Content Animation Wrapper */}
                 <motion.div
@@ -230,35 +233,43 @@ export function Projects() {
                     ))}
                   </div>
 
-                  <div className="pt-2 flex gap-6">
-                    {project.link ? (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                      >
-                        <ExternalLink size={15} /> LIVE_VIEW
-                      </a>
-                    ) : (
-                      <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
-                        <ExternalLink size={15} /> LIVE_VIEW
-                      </span>
-                    )}
-                    {project.github ? (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                      >
-                        <Github size={15} /> SOURCE_CODE
-                      </a>
-                    ) : (
-                      <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
-                        <Github size={15} /> SOURCE_CODE
-                      </span>
-                    )}
+                  <div className="pt-4 flex flex-wrap gap-4 md:gap-6 items-center justify-between">
+                    <div className="flex gap-4 md:gap-6 items-center">
+                      {project.link ? (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
+                        >
+                          <ExternalLink size={15} /> LIVE_VIEW
+                        </a>
+                      ) : (
+                        <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
+                          <ExternalLink size={15} /> LIVE_VIEW
+                        </span>
+                      )}
+                      {project.github ? (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
+                        >
+                          <Github size={15} /> SOURCE_CODE
+                        </a>
+                      ) : (
+                        <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
+                          <Github size={15} /> SOURCE_CODE
+                        </span>
+                      )}
+                    </div>
+                    <a
+                      href={`/projects/${project.slug}`}
+                      className="flex items-center gap-2 px-6 py-2.5 bg-black border border-white text-white text-xs font-semibold uppercase tracking-widest transition-all duration-300 hover:bg-black/90 hover:-translate-y-1"
+                    >
+                      Explore <ArrowRight size={15} />
+                    </a>
                   </div>
                 </motion.div>
               </div>

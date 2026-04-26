@@ -53,7 +53,7 @@ export function Navbar() {
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
+              className="p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:-translate-y-2"
               aria-label="Toggle theme"
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -62,7 +62,7 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
+              className="lg:hidden p-2 rounded-full border border-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:-translate-y-2"
               aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -97,7 +97,7 @@ export function Navbar() {
             href="/resume.pdf"
             download
             onClick={handleNavClick}
-            className="block mt-4 w-full bg-foreground text-background px-6 py-3 rounded-lg font-sans text-sm font-semibold uppercase tracking-wide text-center hover:bg-background hover:text-foreground hover:border hover:border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
+            className="block mt-4 w-full bg-foreground text-background px-6 py-3 rounded-lg font-sans text-sm font-semibold uppercase tracking-wide text-center hover:bg-background hover:text-foreground hover:border hover:border-foreground transition-all duration-300 hover:-translate-y-2"
           >
             Download CV
           </a>

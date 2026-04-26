@@ -40,7 +40,7 @@ export function Chatbot() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("https://my-portfolio-api-iota.vercel.app/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -74,12 +74,12 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] z-50 flex flex-col bg-background/80 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl overflow-hidden"
+            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] z-50 flex flex-col bg-black/5 dark:bg-white/10 backdrop-blur-3xl border border-white/20 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border/50 bg-muted/30">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-full overflow-hidden bg-zinc-800/50 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-full overflow-hidden bg-black/5 dark:bg-white/10 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/20 dark:border-white/10">
                   <Image src="/bot.png" alt="Bot Avatar" width={36} height={36} className="w-full h-full object-cover" />
                 </div>
                 <div>
@@ -106,15 +106,15 @@ export function Chatbot() {
                   className={`flex items-end gap-2 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
                 >
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden ${msg.role === "user" ? "bg-zinc-800 text-zinc-100" : "bg-muted text-foreground"
+                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden border ${msg.role === "user" ? "bg-black/10 dark:bg-white/10 backdrop-blur-md text-foreground border-white/20 dark:border-white/10" : "bg-muted text-foreground border-transparent"
                       }`}
                   >
                     {msg.role === "user" ? <User size={14} /> : <Image src="/bot.png" alt="Bot" width={32} height={32} className="w-full h-full object-cover" />}
                   </div>
                   <div
                     className={`max-w-[75%] p-3 rounded-2xl text-sm ${msg.role === "user"
-                      ? "bg-zinc-800 text-zinc-100 rounded-br-sm border border-zinc-700"
-                      : "bg-muted/50 border border-border/50 rounded-bl-sm"
+                      ? "bg-black/10 dark:bg-white/10 backdrop-blur-md text-foreground rounded-br-sm border border-white/20 dark:border-white/10 shadow-sm"
+                      : "bg-muted/50 border border-border/50 rounded-bl-sm shadow-sm"
                       }`}
                   >
                     {msg.content}
@@ -150,7 +150,7 @@ export function Chatbot() {
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-1.5 p-2 bg-zinc-800 text-zinc-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 transition-colors"
+                  className="absolute right-1.5 p-2 bg-primary text-primary-foreground rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                 >
                   {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
                 </button>
@@ -166,10 +166,16 @@ export function Chatbot() {
             initial={{ opacity: 0, x: 20, scale: 0.8 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 20, scale: 0.8 }}
-            transition={{ delay: 2, duration: 0.3 }}
+            transition={{
+              delay: 0.5,
+              duration: 0.4,
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
             className="fixed bottom-10 right-24 z-50 bg-background text-foreground px-4 py-2 rounded-2xl rounded-br-sm shadow-xl border border-border/50 pointer-events-none"
           >
-            <p className="text-sm font-medium whitespace-nowrap">Hi ask me anything 👋</p>
+            <p className="text-sm font-medium whitespace-nowrap">HI 👋</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -181,7 +187,7 @@ export function Chatbot() {
         className="fixed bottom-6 right-6 w-16 h-16 z-50 flex items-center justify-center focus:outline-none"
       >
         {isOpen ? (
-          <div className="w-14 h-14 bg-zinc-800 text-zinc-100 rounded-full flex items-center justify-center shadow-xl shadow-black/20 border border-zinc-700">
+          <div className="w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-xl shadow-black/20 border border-border/50">
             <X size={24} />
           </div>
         ) : (
