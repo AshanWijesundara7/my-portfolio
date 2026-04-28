@@ -17,17 +17,17 @@ export function TechStack() {
   ]
 
   const tools = [
-    { name: "AWS", icon: <FaAws size={32} color="#FF9900" /> },
-    { name: "Git", icon: <FaGitAlt size={32} color="#F05032" /> },
-    { name: "GitHub", icon: <FaGithub size={32} color="#ffffff" /> },
-    { name: "VS Code", icon: <VscVscode size={32} color="#007ACC" /> },
-    { name: "Android Studio", icon: <SiAndroidstudio size={32} color="#3DDC84" /> },
-    { name: "IntelliJ IDEA", icon: <SiIntellijidea size={32} color="#FE315D" /> },
-    { name: "Figma", icon: <FaFigma size={32} color="#F24E1E" /> },
-    { name: "Postman", icon: <SiPostman size={32} color="#FF6C37" /> },
-    { name: "ClickUp", icon: <SiClickup size={32} color="#7B68EE" /> },
-    { name: "Microsoft Office", icon: <FaWindows size={32} color="#D83B01" /> },
-    { name: "Jira", icon: <SiJira size={32} color="#0052CC" /> },
+    { name: "AWS",              icon: <FaAws           size={32} color="#FF9900" /> },
+    { name: "Git",              icon: <FaGitAlt        size={32} color="#F05032" /> },
+    { name: "GitHub",           icon: <FaGithub        size={32} color="#ffffff" /> },
+    { name: "VS Code",          icon: <VscVscode       size={32} color="#007ACC" /> },
+    { name: "Android Studio",   icon: <SiAndroidstudio size={32} color="#3DDC84" /> },
+    { name: "IntelliJ IDEA",    icon: <SiIntellijidea  size={32} color="#FE315D" /> },
+    { name: "Figma",            icon: <FaFigma         size={32} color="#F24E1E" /> },
+    { name: "Postman",          icon: <SiPostman       size={32} color="#FF6C37" /> },
+    { name: "ClickUp",          icon: <SiClickup       size={32} color="#7B68EE" /> },
+    { name: "Microsoft Office", icon: <FaWindows       size={32} color="#D83B01" /> },
+    { name: "Jira",             icon: <SiJira          size={32} color="#0052CC" /> },
   ]
 
   return (
