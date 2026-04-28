@@ -25,4 +25,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.env.localpublic/marketing.mp4
+.env.local
+public/marketing.mp4
