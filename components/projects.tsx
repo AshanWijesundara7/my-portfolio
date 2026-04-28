@@ -15,6 +15,15 @@ export const projects = [
     github: "https://github.com/AshanWijesundara7/ChargeUp2",
   },
   {
+    title: "Smart Campus API",
+    slug: "smart-campus-api",
+    description:
+      "A RESTful API built with JAX-RS (Jersey) for managing campus rooms and IoT sensors. Supports full CRUD operations, sensor readings history, sub-resource locators, query filtering, and a global exception mapper — all backed by thread-safe in-memory data stores.",
+    tags: ["Java", "JAX-RS", "Jersey", "REST API", "Maven"],
+    link: "",
+    github: "https://github.com/AshanWijesundara7/smart-campus-api",
+  },
+  {
     title: "Estate Agent Website",
     slug: "estate-agent",
     description:
@@ -45,13 +54,10 @@ export const projects = [
 
 const n = projects.length
 
-// Wrap index circularly
 const wrap = (i: number) => ((i % n) + n) % n
 
-// Shortest circular offset from active: always -2..+2 for n=4
 const circularOffset = (index: number, active: number) => {
   const raw = index - active
-  // Bring into range [-n/2, n/2]
   let offset = ((raw % n) + n) % n
   if (offset > n / 2) offset -= n
   return offset
@@ -66,7 +72,6 @@ export function Projects() {
   const goNext = () => setActive((prev) => wrap(prev + 1))
   const goPrev = () => setActive((prev) => wrap(prev - 1))
 
-  // Trackpad / mouse-wheel horizontal scroll with momentum fix
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -80,7 +85,6 @@ export function Projects() {
       if (!isHorizontal) return
       e.preventDefault()
 
-      // Absorb trackpad momentum while scroll is locked
       if (scrollLocked.current) {
         scrollAccum.current = 0
         return
@@ -88,7 +92,6 @@ export function Projects() {
 
       scrollAccum.current += e.deltaX
 
-      // Trigger scroll thresholds
       if (scrollAccum.current > 120) {
         scrollAccum.current = 0
         scrollLocked.current = true
@@ -101,7 +104,6 @@ export function Projects() {
         setTimeout(() => { scrollLocked.current = false }, 800)
       }
 
-      // Clear partial swipes when user stops scrolling
       clearTimeout(wheelTimeout)
       wheelTimeout = setTimeout(() => {
         scrollAccum.current = 0
@@ -134,7 +136,6 @@ export function Projects() {
 
   return (
     <section id="projects" className="py-24 max-w-7xl mx-auto overflow-hidden">
-      {/* Heading */}
       <div className="flex justify-center mb-20 px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -145,7 +146,6 @@ export function Projects() {
         </motion.h2>
       </div>
 
-      {/* Stage */}
       <div
         ref={containerRef}
         className="relative flex items-center justify-center"
@@ -180,12 +180,12 @@ export function Projects() {
               className="active:cursor-grabbing"
             >
               <div
-                className={`border p-10 md:p-14 transition-all duration-500 ${isActive
-                  ? "bg-card border-primary/40"
-                  : "bg-card/30 border-border/20"
-                  }`}
+                className={`border p-10 md:p-14 transition-all duration-500 ${
+                  isActive
+                    ? "bg-card border-primary/40"
+                    : "bg-card/30 border-border/20"
+                }`}
               >
-                {/* Inner Content Animation Wrapper */}
                 <motion.div
                   animate={{
                     opacity: isActive ? 1 : 0.3,
@@ -198,7 +198,6 @@ export function Projects() {
                   }}
                   className="space-y-5"
                 >
-                  {/* Header */}
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
                       {String(index + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
@@ -266,7 +265,7 @@ export function Projects() {
                     </div>
                     <a
                       href={`/projects/${project.slug}`}
-                      className="flex items-center gap-2 px-6 py-2.5 bg-black border border-white text-white text-xs font-semibold uppercase tracking-widest transition-all duration-300 hover:bg-black/90 hover:-translate-y-1"
+                      className="flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-xs font-semibold uppercase tracking-widest transition-all duration-300 hover:opacity-80 hover:-translate-y-1"
                     >
                       Explore <ArrowRight size={15} />
                     </a>
@@ -287,7 +286,6 @@ export function Projects() {
           ← Prev
         </button>
 
-        {/* Circular dot indicator */}
         <div className="flex items-center gap-3">
           {projects.map((_, i) => (
             <button

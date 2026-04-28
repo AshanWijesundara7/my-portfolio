@@ -1,10 +1,11 @@
 "use client"
 
+// components/chatbot.tsx
+// Portfolio chatbot UI — connects to /api/chat (local ML engine)
+
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react"
-import Image from "next/image"
-
+import { MessageCircle, X, Send, Bot, User } from "lucide-react"
 
 type Message = {
   role: "user" | "model"
@@ -12,23 +13,21 @@ type Message = {
 }
 
 export function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { role: "model", content: "Hi! I'm Ashan's AI assistant. How can I help you today?" }
+    {
+      role: "model",
+      content: "Hi! 👋 I'm Ashan's portfolio assistant. Ask me about his skills, projects, or how to get in touch!",
+    },
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
+  // Auto scroll to latest message
   useEffect(() => {
-    scrollToBottom()
-  }, [messages, isOpen])
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages, open])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,9 +47,7 @@ export function Chatbot() {
         }),
       })
 
-      if (!response.ok) {
-        throw new Error("Failed to get response")
-      }
+      if (!response.ok) throw new Error("Failed to get response")
 
       const data = await response.json()
       setMessages((prev) => [...prev, { role: "model", content: data.message }])
@@ -58,7 +55,10 @@ export function Chatbot() {
       console.error(error)
       setMessages((prev) => [
         ...prev,
-        { role: "model", content: "Sorry, I'm having trouble connecting right now. Please try again later." },
+        {
+          role: "model",
+          content: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        },
       ])
     } finally {
       setIsLoading(false)
@@ -67,140 +67,143 @@ export function Chatbot() {
 
   return (
     <>
+      {/* Chat Window */}
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] z-50 flex flex-col bg-black/5 dark:bg-white/10 backdrop-blur-3xl border border-white/20 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[340px] sm:w-[380px] flex flex-col border border-border/80 bg-background shadow-2xl"
+            style={{ height: "480px" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-border/50 bg-muted/30">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-card/50">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-full overflow-hidden bg-black/5 dark:bg-white/10 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/20 dark:border-white/10">
-                  <Image src="/bot.png" alt="Bot Avatar" width={36} height={36} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-sm">Portfolio Assistant</h3>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                    Online
-                  </p>
-                </div>
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="font-heading font-bold uppercase tracking-widest text-xs">
+                  AMW Assistant
+                </span>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-muted/50 rounded-full transition-colors text-muted-foreground hover:text-foreground"
+                onClick={() => setOpen(false)}
+                className="p-1 hover:text-primary transition-colors"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
-            {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`flex items-end gap-2 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+              {messages.map((msg, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={`flex gap-2 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
                 >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden border ${msg.role === "user" ? "bg-black/10 dark:bg-white/10 backdrop-blur-md text-foreground border-white/20 dark:border-white/10" : "bg-muted text-foreground border-transparent"
-                      }`}
-                  >
-                    {msg.role === "user" ? <User size={14} /> : <Image src="/bot.png" alt="Bot" width={32} height={32} className="w-full h-full object-cover" />}
+                  {/* Avatar */}
+                  <div className="shrink-0 w-7 h-7 border border-border/60 flex items-center justify-center bg-card/50">
+                    {msg.role === "model"
+                      ? <Bot size={14} className="text-primary" />
+                      : <User size={14} />
+                    }
                   </div>
+
+                  {/* Bubble */}
                   <div
-                    className={`max-w-[75%] p-3 rounded-2xl text-sm ${msg.role === "user"
-                      ? "bg-black/10 dark:bg-white/10 backdrop-blur-md text-foreground rounded-br-sm border border-white/20 dark:border-white/10 shadow-sm"
-                      : "bg-muted/50 border border-border/50 rounded-bl-sm shadow-sm"
-                      }`}
+                    className={`max-w-[78%] px-3 py-2 text-xs leading-relaxed border ${
+                      msg.role === "user"
+                        ? "bg-foreground text-background border-foreground/20 ml-auto"
+                        : "bg-card/40 text-foreground border-border/40"
+                    }`}
                   >
-                    {msg.content}
+                    {/* Render line breaks and bold markdown */}
+                    {msg.content.split("\n").map((line, j) => (
+                      <span key={j}>
+                        {line.split(/(\*\*[^*]+\*\*)/).map((part, k) =>
+                          part.startsWith("**") && part.endsWith("**")
+                            ? <strong key={k}>{part.slice(2, -2)}</strong>
+                            : part
+                        )}
+                        {j < msg.content.split("\n").length - 1 && <br />}
+                      </span>
+                    ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
+
+              {/* Loading dots */}
               {isLoading && (
-                <div className="flex items-end gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-muted text-foreground">
-                    <Image src="/bot.png" alt="Bot" width={32} height={32} className="w-full h-full object-cover" />
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-2"
+                >
+                  <div className="w-7 h-7 border border-border/60 flex items-center justify-center bg-card/50">
+                    <Bot size={14} className="text-primary" />
                   </div>
-                  <div className="max-w-[75%] p-4 rounded-2xl text-sm bg-muted/50 border border-border/50 rounded-bl-sm flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                    <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                    <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce"></span>
+                  <div className="px-3 py-2 bg-card/40 border border-border/40 flex items-center gap-1">
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1.5 h-1.5 rounded-full bg-foreground/40"
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                      />
+                    ))}
                   </div>
-                </div>
+                </motion.div>
               )}
-              <div ref={messagesEndRef} />
+
+              <div ref={bottomRef} />
             </div>
 
-            {/* Input Area */}
-            <form onSubmit={handleSubmit} className="p-3 border-t border-border/50 bg-background/50">
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about Ashan..."
-                  className="w-full bg-muted/50 border border-border/50 rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all placeholder:text-muted-foreground"
-                  disabled={isLoading}
-                />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isLoading}
-                  className="absolute right-1.5 p-2 bg-primary text-primary-foreground rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
-                >
-                  {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-                </button>
-              </div>
+            {/* Input */}
+            <form
+              onSubmit={handleSubmit}
+              className="border-t border-border/50 flex items-center gap-2 px-3 py-3 bg-card/30"
+            >
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about skills, projects..."
+                disabled={isLoading}
+                className="flex-1 bg-transparent text-xs outline-none placeholder:text-muted-foreground/50 disabled:opacity-50"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !input.trim()}
+                className="p-1.5 border border-foreground/30 hover:bg-foreground hover:text-background transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <Send size={13} />
+              </button>
             </form>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: 20, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 20, scale: 0.8 }}
-            transition={{
-              delay: 0.5,
-              duration: 0.4,
-              type: "spring",
-              stiffness: 260,
-              damping: 20
-            }}
-            className="fixed bottom-10 right-24 z-50 bg-background text-foreground px-4 py-2 rounded-2xl rounded-br-sm shadow-xl border border-border/50 pointer-events-none"
-          >
-            <p className="text-sm font-medium whitespace-nowrap">HI 👋</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      {/* Floating Toggle Button */}
       <motion.button
-        whileHover={{ scale: 1.05, y: -4 }}
+        onClick={() => setOpen((prev) => !prev)}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 w-16 h-16 z-50 flex items-center justify-center focus:outline-none"
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center"
       >
-        {isOpen ? (
-          <div className="w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-xl shadow-black/20 border border-border/50">
-            <X size={24} />
-          </div>
-        ) : (
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            <Image
-              src="/bot.png"
-              alt="Chat"
-              width={80}
-              height={80}
-              className="object-contain scale-[1.3] hover:scale-[1.4] transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-            />
-          </div>
-        )}
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <X size={32} className="text-foreground drop-shadow-lg" />
+            </motion.div>
+          ) : (
+            <motion.div key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <MessageCircle size={32} className="text-foreground drop-shadow-lg" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.button>
     </>
   )
