@@ -1,59 +1,17 @@
 "use client"
 
+// components/projects.tsx
+// ✅ Project DATA now lives in lib/projectsData.ts
+// Add projects there → both chatbot and portfolio auto-update
+
 import { motion } from "framer-motion"
 import { ExternalLink, Github, ArrowRight } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
+import { projects } from "@/lib/projectsData"
 
-export const projects = [
-  {
-    title: "ChargeUp Group Project",
-    slug: "chargeup",
-    description:
-      "A EV charging station finder application that helps electric vehicle users locate nearby charging stations quickly and easily. The platform provides real-time station information, navigation support, and station management features.",
-    tags: ["React Native", "AWS", "MongoDB", "Google Maps API", "Stripe", "Postman"],
-    link: "https://chargeupsl.vercel.app/",
-    github: "https://github.com/AshanWijesundara7/ChargeUp2",
-  },
-  {
-    title: "Smart Campus API",
-    slug: "smart-campus-api",
-    description:
-      "A RESTful API built with JAX-RS (Jersey) for managing campus rooms and IoT sensors. Supports full CRUD operations, sensor readings history, sub-resource locators, query filtering, and a global exception mapper — all backed by thread-safe in-memory data stores.",
-    tags: ["Java", "JAX-RS", "Jersey", "REST API", "Maven"],
-    link: "",
-    github: "https://github.com/AshanWijesundara7/smart-campus-api",
-  },
-  {
-    title: "Estate Agent Website",
-    slug: "estate-agent",
-    description:
-      "Developed a responsive property listing platform featuring dynamic search filters and a clean, modern UI for browsing listings.",
-    tags: ["React", "HTML", "CSS3"],
-    link: "https://vivere-luxe.vercel.app",
-    github: "https://github.com/AshanWijesundara7/estate-agent-website",
-  },
-  {
-    title: "Traffic Data Analysis System",
-    slug: "traffic-data",
-    description:
-      "Engineered a data visualization tool using Python and Tkinter to analyze and display complex traffic patterns from datasets.",
-    tags: ["Python", "Tkinter"],
-    link: "",
-    github: "https://github.com/AshanWijesundara7/Traffic-Data-Analysis-System",
-  },
-  {
-    title: "Mobile App UI/UX Design – ChargeUp",
-    slug: "chargeup-ui",
-    description:
-      "Designed a complete mobile application UI including wireframes, user flows, and high-fidelity prototypes for the ChargeUp platform.",
-    tags: ["Figma"],
-    link: "",
-    github: "",
-  },
-]
+export { projects }
 
 const n = projects.length
-
 const wrap = (i: number) => ((i % n) + n) % n
 
 const circularOffset = (index: number, active: number) => {
@@ -75,46 +33,28 @@ export function Projects() {
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
-
     let wheelTimeout: NodeJS.Timeout
 
     const onWheel = (e: WheelEvent) => {
       const isHorizontal =
         Math.abs(e.deltaX) > Math.abs(e.deltaY) * 0.5 || Math.abs(e.deltaX) > 8
-
       if (!isHorizontal) return
       e.preventDefault()
-
-      if (scrollLocked.current) {
-        scrollAccum.current = 0
-        return
-      }
-
+      if (scrollLocked.current) { scrollAccum.current = 0; return }
       scrollAccum.current += e.deltaX
-
       if (scrollAccum.current > 120) {
-        scrollAccum.current = 0
-        scrollLocked.current = true
-        goNext()
-        setTimeout(() => { scrollLocked.current = false }, 800)
+        scrollAccum.current = 0; scrollLocked.current = true
+        goNext(); setTimeout(() => { scrollLocked.current = false }, 800)
       } else if (scrollAccum.current < -120) {
-        scrollAccum.current = 0
-        scrollLocked.current = true
-        goPrev()
-        setTimeout(() => { scrollLocked.current = false }, 800)
+        scrollAccum.current = 0; scrollLocked.current = true
+        goPrev(); setTimeout(() => { scrollLocked.current = false }, 800)
       }
-
       clearTimeout(wheelTimeout)
-      wheelTimeout = setTimeout(() => {
-        scrollAccum.current = 0
-      }, 250)
+      wheelTimeout = setTimeout(() => { scrollAccum.current = 0 }, 250)
     }
 
     el.addEventListener("wheel", onWheel, { passive: false })
-    return () => {
-      el.removeEventListener("wheel", onWheel)
-      clearTimeout(wheelTimeout)
-    }
+    return () => { el.removeEventListener("wheel", onWheel); clearTimeout(wheelTimeout) }
   }, [])
 
   const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
@@ -181,21 +121,12 @@ export function Projects() {
             >
               <div
                 className={`border p-10 md:p-14 transition-all duration-500 ${
-                  isActive
-                    ? "bg-card border-primary/40"
-                    : "bg-card/30 border-border/20"
+                  isActive ? "bg-card border-primary/40" : "bg-card/30 border-border/20"
                 }`}
               >
                 <motion.div
-                  animate={{
-                    opacity: isActive ? 1 : 0.3,
-                    y: isActive ? 0 : 15,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    ease: "easeOut",
-                    delay: isActive ? 0.1 : 0,
-                  }}
+                  animate={{ opacity: isActive ? 1 : 0.3, y: isActive ? 0 : 15 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: isActive ? 0.1 : 0 }}
                   className="space-y-5"
                 >
                   <div className="flex items-center justify-between">
@@ -235,12 +166,8 @@ export function Projects() {
                   <div className="pt-4 flex flex-wrap gap-4 md:gap-6 items-center justify-between">
                     <div className="flex gap-4 md:gap-6 items-center">
                       {project.link ? (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                        >
+                        <a href={project.link} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
                           <ExternalLink size={15} /> LIVE_VIEW
                         </a>
                       ) : (
@@ -249,12 +176,8 @@ export function Projects() {
                         </span>
                       )}
                       {project.github ? (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                        >
+                        <a href={project.github} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
                           <Github size={15} /> SOURCE_CODE
                         </a>
                       ) : (
@@ -277,37 +200,25 @@ export function Projects() {
         })}
       </div>
 
-      {/* Controls */}
       <div className="flex items-center justify-center gap-6 mt-10 px-6">
-        <button
-          onClick={goPrev}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
-        >
+        <button onClick={goPrev}
+          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]">
           ← Prev
         </button>
-
         <div className="flex items-center gap-3">
           {projects.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
+            <button key={i} onClick={() => setActive(i)}
               style={{
                 width: i === active ? "24px" : "4px",
                 height: "3px",
                 transition: "all 0.35s ease",
-                background:
-                  i === active
-                    ? "hsl(var(--primary))"
-                    : "hsl(var(--muted-foreground) / 0.3)",
+                background: i === active ? "hsl(var(--primary))" : "hsl(var(--muted-foreground) / 0.3)",
               }}
             />
           ))}
         </div>
-
-        <button
-          onClick={goNext}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]"
-        >
+        <button onClick={goNext}
+          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]">
           Next →
         </button>
       </div>
