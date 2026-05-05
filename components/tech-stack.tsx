@@ -17,18 +17,21 @@ export function TechStack() {
   ]
 
   const tools = [
-    { name: "AWS",              icon: <FaAws           size={32} color="#FF9900" /> },
-    { name: "Git",              icon: <FaGitAlt        size={32} color="#F05032" /> },
-    { name: "GitHub",           icon: <FaGithub        size={32} color="#ffffff" /> },
-    { name: "VS Code",          icon: <VscVscode       size={32} color="#007ACC" /> },
-    { name: "Android Studio",   icon: <SiAndroidstudio size={32} color="#3DDC84" /> },
-    { name: "IntelliJ IDEA",    icon: <SiIntellijidea  size={32} color="#FE315D" /> },
-    { name: "Figma",            icon: <FaFigma         size={32} color="#F24E1E" /> },
-    { name: "Postman",          icon: <SiPostman       size={32} color="#FF6C37" /> },
-    { name: "ClickUp",          icon: <SiClickup       size={32} color="#7B68EE" /> },
-    { name: "Microsoft Office", icon: <FaWindows       size={32} color="#D83B01" /> },
-    { name: "Jira",             icon: <SiJira          size={32} color="#0052CC" /> },
+    { name: "AWS",              icon: <FaAws /> },
+    { name: "Git",              icon: <FaGitAlt /> },
+    { name: "GitHub",           icon: <FaGithub /> },
+    { name: "VS Code",          icon: <VscVscode /> },
+    { name: "Android Studio",   icon: <SiAndroidstudio /> },
+    { name: "IntelliJ IDEA",    icon: <SiIntellijidea /> },
+    { name: "Figma",            icon: <FaFigma /> },
+    { name: "Postman",          icon: <SiPostman /> },
+    { name: "ClickUp",          icon: <SiClickup /> },
+    { name: "Microsoft Office", icon: <FaWindows /> },
+    { name: "Jira",             icon: <SiJira /> },
   ]
+
+  // Duplicate tools for seamless loop
+  const loopedTools = [...tools, ...tools]
 
   return (
     <>
@@ -67,22 +70,37 @@ export function TechStack() {
       </section>
 
       {/* Tools & Technologies Section */}
-      <section id="tools" className="py-24 px-6 md:px-24">
+      <section id="tools" className="py-24 px-6 md:px-24 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-heading font-bold mb-16 uppercase tracking-tighter border-l-4 border-primary pl-6">
             Tools & <span className="text-primary">Technologies</span>
           </h2>
+        </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-6">
-            {tools.map((tool) => (
+        {/* Full-width marquee strip */}
+        <div className="relative w-full overflow-hidden">
+          {/* Left fade */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 z-10 bg-gradient-to-r from-background to-transparent" />
+          {/* Right fade */}
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 z-10 bg-gradient-to-l from-background to-transparent" />
+
+          <div
+            className="flex gap-12 w-max"
+            style={{
+              animation: "marquee 28s linear infinite",
+            }}
+          >
+            {loopedTools.map((tool, i) => (
               <div
-                key={tool.name}
-                className="group flex flex-col items-center gap-3 cursor-default"
+                key={`${tool.name}-${i}`}
+                className="group flex flex-col items-center gap-3 cursor-default min-w-[72px]"
               >
-                <div className="relative flex items-center justify-center w-16 h-16 bg-background border border-border group-hover:border-primary/50 transition-all duration-300 group-hover:-translate-y-1">
-                  <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-primary/20 group-hover:bg-primary transition-colors" />
+                <span
+                  className="text-5xl text-white group-hover:-translate-y-1 transition-transform duration-300"
+                  style={{ fontSize: "2.75rem" }}
+                >
                   {tool.icon}
-                </div>
+                </span>
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors font-mono text-xs text-center leading-tight">
                   {tool.name}
                 </span>
@@ -90,6 +108,14 @@ export function TechStack() {
             ))}
           </div>
         </div>
+
+        {/* Keyframe injection */}
+        <style>{`
+          @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        `}</style>
       </section>
     </>
   )

@@ -1,231 +1,219 @@
 "use client"
 
-// components/projects.tsx
-// ✅ Project DATA now lives in lib/projectsData.ts
-// Add projects there → both chatbot and portfolio auto-update
-
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { ExternalLink, Github, ArrowRight } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
+import { useRef } from "react"
 import { projects } from "@/lib/projectsData"
 
 export { projects }
 
 const n = projects.length
-const wrap = (i: number) => ((i % n) + n) % n
-
-const circularOffset = (index: number, active: number) => {
-  const raw = index - active
-  let offset = ((raw % n) + n) % n
-  if (offset > n / 2) offset -= n
-  return offset
-}
 
 export function Projects() {
-  const [active, setActive] = useState(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const scrollAccum = useRef(0)
-  const scrollLocked = useRef(false)
-
-  const goNext = () => setActive((prev) => wrap(prev + 1))
-  const goPrev = () => setActive((prev) => wrap(prev - 1))
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    let wheelTimeout: NodeJS.Timeout
-
-    const onWheel = (e: WheelEvent) => {
-      const isHorizontal =
-        Math.abs(e.deltaX) > Math.abs(e.deltaY) * 0.5 || Math.abs(e.deltaX) > 8
-      if (!isHorizontal) return
-      e.preventDefault()
-      if (scrollLocked.current) { scrollAccum.current = 0; return }
-      scrollAccum.current += e.deltaX
-      if (scrollAccum.current > 120) {
-        scrollAccum.current = 0; scrollLocked.current = true
-        goNext(); setTimeout(() => { scrollLocked.current = false }, 800)
-      } else if (scrollAccum.current < -120) {
-        scrollAccum.current = 0; scrollLocked.current = true
-        goPrev(); setTimeout(() => { scrollLocked.current = false }, 800)
-      }
-      clearTimeout(wheelTimeout)
-      wheelTimeout = setTimeout(() => { scrollAccum.current = 0 }, 250)
-    }
-
-    el.addEventListener("wheel", onWheel, { passive: false })
-    return () => { el.removeEventListener("wheel", onWheel); clearTimeout(wheelTimeout) }
-  }, [])
-
-  const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
-    if (info.offset.x < -60) goNext()
-    else if (info.offset.x > 60) goPrev()
-  }
-
-  const getStyle = (index: number) => {
-    const offset = circularOffset(index, active)
-    const abs = Math.abs(offset)
-    return {
-      zIndex: n - abs,
-      x: `${offset * 48}%`,
-      scale: abs === 0 ? 1 : abs === 1 ? 0.87 : 0.76,
-      opacity: abs === 0 ? 1 : abs === 1 ? 0.4 : 0.15,
-      filter: `blur(${abs === 0 ? 0 : abs === 1 ? 3 : 6}px)`,
-    }
-  }
-
   return (
-    <section id="projects" className="py-24 max-w-7xl mx-auto overflow-hidden">
-      <div className="flex justify-center mb-20 px-6">
+    <section id="projects" className="py-24 px-6 md:px-24 max-w-7xl mx-auto">
+      {/* Heading */}
+      <div className="flex justify-center mb-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           className="text-4xl md:text-6xl font-heading font-bold uppercase tracking-tighter text-center max-w-2xl"
         >
           Featured <span className="text-primary">Prototypes</span>
         </motion.h2>
       </div>
 
+      {/* Scrollable timeline container — shows ~4 cards, rest revealed on scroll */}
       <div
-        ref={containerRef}
-        className="relative flex items-center justify-center"
-        style={{ height: "660px" }}
+        className="relative overflow-y-auto pr-2"
+        style={{
+          maxHeight: "calc(4 * 240px)",
+          scrollbarWidth: "thin",
+          scrollbarColor: "hsl(var(--primary) / 0.3) transparent",
+        }}
       >
-        {projects.map((project, index) => {
-          const { zIndex, x, scale, opacity, filter } = getStyle(index)
-          const isActive = index === active
+        {/* Vertical spine */}
+        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border/40 md:-translate-x-px pointer-events-none" />
 
-          return (
-            <motion.div
+        <div className="space-y-0">
+          {projects.map((project, index) => (
+            <TimelineCard
               key={index}
-              animate={{ x, scale, opacity, filter }}
-              transition={{
-                x: { type: "spring", stiffness: 260, damping: 26 },
-                scale: { type: "spring", stiffness: 260, damping: 26 },
-                opacity: { duration: 0.4, ease: "easeInOut" },
-                filter: { duration: 0.4, ease: "easeInOut" },
-              }}
-              drag={isActive ? "x" : false}
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.12}
-              onDragEnd={handleDragEnd}
-              style={{
-                position: "absolute",
-                width: "min(960px, 96vw)",
-                zIndex,
-                pointerEvents: isActive ? "auto" : "none",
-                cursor: isActive ? "grab" : "default",
-                transformOrigin: "center center",
-              }}
-              className="active:cursor-grabbing"
-            >
-              <div
-                className={`border p-10 md:p-14 transition-all duration-500 ${
-                  isActive ? "bg-card border-primary/40" : "bg-card/30 border-border/20"
-                }`}
-              >
-                <motion.div
-                  animate={{ opacity: isActive ? 1 : 0.3, y: isActive ? 0 : 15 }}
-                  transition={{ duration: 0.5, ease: "easeOut", delay: isActive ? 0.1 : 0 }}
-                  className="space-y-5"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
-                      {String(index + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
-                    </span>
-                    {isActive && (
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-[10px] uppercase tracking-widest text-primary border border-primary/40 px-2 py-0.5"
-                      >
-                        Active
-                      </motion.span>
-                    )}
-                  </div>
-
-                  <h3 className="text-2xl md:text-3xl font-heading font-bold uppercase tracking-wide leading-tight">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base line-clamp-5">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] uppercase tracking-widest border border-primary/30 px-2 py-1 text-primary"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="pt-4 flex flex-wrap gap-4 md:gap-6 items-center justify-between">
-                    <div className="flex gap-4 md:gap-6 items-center">
-                      {project.link ? (
-                        <a href={project.link} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
-                          <ExternalLink size={15} /> LIVE_VIEW
-                        </a>
-                      ) : (
-                        <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
-                          <ExternalLink size={15} /> LIVE_VIEW
-                        </span>
-                      )}
-                      {project.github ? (
-                        <a href={project.github} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm hover:text-primary transition-colors">
-                          <Github size={15} /> SOURCE_CODE
-                        </a>
-                      ) : (
-                        <span className="flex items-center gap-2 text-sm text-muted-foreground/30 cursor-not-allowed">
-                          <Github size={15} /> SOURCE_CODE
-                        </span>
-                      )}
-                    </div>
-                    <a
-                      href={`/projects/${project.slug}`}
-                      className="flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-xs font-semibold uppercase tracking-widest transition-all duration-300 hover:opacity-80 hover:-translate-y-1"
-                    >
-                      Explore <ArrowRight size={15} />
-                    </a>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
-
-      <div className="flex items-center justify-center gap-6 mt-10 px-6">
-        <button onClick={goPrev}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]">
-          ← Prev
-        </button>
-        <div className="flex items-center gap-3">
-          {projects.map((_, i) => (
-            <button key={i} onClick={() => setActive(i)}
-              style={{
-                width: i === active ? "24px" : "4px",
-                height: "3px",
-                transition: "all 0.35s ease",
-                background: i === active ? "hsl(var(--primary))" : "hsl(var(--muted-foreground) / 0.3)",
-              }}
+              project={project}
+              index={index}
+              total={n}
+              side={index % 2 === 0 ? "left" : "right"}
             />
           ))}
         </div>
-        <button onClick={goNext}
-          className="text-[11px] uppercase tracking-widest text-foreground border border-foreground/30 px-5 py-2.5 hover:bg-foreground hover:text-background transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] dark:hover:shadow-[0_10px_30px_rgba(255,255,255,0.3)]">
-          Next →
-        </button>
+
+        {/* End node */}
+        <div className="relative flex justify-start md:justify-center mt-0">
+          <div className="relative left-4 md:left-0 flex flex-col items-center">
+            <div className="w-3 h-3 rounded-full bg-primary/40 border border-primary" />
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 font-mono mt-3 mb-4">
+              end_of_log
+            </p>
+          </div>
+        </div>
       </div>
 
-      <p className="text-center text-[10px] uppercase tracking-widest text-muted-foreground/30 mt-4">
-        Infinite loop · Drag · Swipe · Scroll horizontally
-      </p>
+      {/* Scroll hint */}
+      <div className="flex justify-center mt-6">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 font-mono flex items-center gap-2">
+          <span className="inline-block animate-bounce">↓</span>
+          Scroll to explore all {n} projects
+          <span className="inline-block animate-bounce">↓</span>
+        </p>
+      </div>
     </section>
+  )
+}
+
+function TimelineCard({
+  project,
+  index,
+  total,
+  side,
+}: {
+  project: (typeof projects)[0]
+  index: number
+  total: number
+  side: "left" | "right"
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-40px" })
+  const isLeft = side === "left"
+
+  return (
+    <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[240px]">
+
+      {/* Desktop: left side content or spacer */}
+      <div className={`hidden md:flex ${isLeft ? "justify-end pr-12" : ""} items-center`}>
+        {isLeft && (
+          <CardContent project={project} index={index} total={total} inView={inView} align="right" />
+        )}
+      </div>
+
+      {/* Spine node */}
+      <div className="absolute left-4 md:left-1/2 top-1/2 md:-translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={inView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="w-3 h-3 rounded-full bg-background border-2 border-primary shadow-[0_0_12px_hsl(var(--primary)/0.6)]"
+        />
+      </div>
+
+      {/* Desktop: right side content or spacer */}
+      <div className={`hidden md:flex ${!isLeft ? "justify-start pl-12" : ""} items-center`}>
+        {!isLeft && (
+          <CardContent project={project} index={index} total={total} inView={inView} align="left" />
+        )}
+      </div>
+
+      {/* Mobile: always left-indented */}
+      <div className="md:hidden pl-12 py-6 col-span-1">
+        <CardContent project={project} index={index} total={total} inView={inView} align="left" />
+      </div>
+    </div>
+  )
+}
+
+function CardContent({
+  project,
+  index,
+  total,
+  inView,
+  align,
+}: {
+  project: (typeof projects)[0]
+  index: number
+  total: number
+  inView: boolean
+  align: "left" | "right"
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: align === "right" ? 40 : -40 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+      className="w-full max-w-[460px] my-8"
+    >
+      <div className="group relative border border-border/50 bg-card/30 hover:bg-card hover:border-primary/40 transition-all duration-500 p-8 hover:-translate-y-1">
+
+        {/* Corner accents */}
+        <span className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/30 group-hover:border-primary transition-colors duration-300" />
+        <span className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/30 group-hover:border-primary transition-colors duration-300" />
+
+        {/* Index label */}
+        <p className="font-mono text-[10px] uppercase tracking-widest text-primary mb-4">
+          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </p>
+
+        {/* Title */}
+        <h3 className="text-xl md:text-2xl font-heading font-bold uppercase tracking-wide leading-tight mb-3">
+          {project.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-5">
+          {project.description}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] uppercase tracking-widest border border-primary/30 px-2 py-1 text-primary"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* Links */}
+        <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex gap-4 items-center">
+            {project.link ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs hover:text-primary transition-colors"
+              >
+                <ExternalLink size={13} /> LIVE_VIEW
+              </a>
+            ) : (
+              <span className="flex items-center gap-2 text-xs text-muted-foreground/30 cursor-not-allowed">
+                <ExternalLink size={13} /> LIVE_VIEW
+              </span>
+            )}
+            {project.github ? (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs hover:text-primary transition-colors"
+              >
+                <Github size={13} /> SOURCE
+              </a>
+            ) : (
+              <span className="flex items-center gap-2 text-xs text-muted-foreground/30 cursor-not-allowed">
+                <Github size={13} /> SOURCE
+              </span>
+            )}
+          </div>
+          <a
+            href={`/projects/${project.slug}`}
+            className="flex items-center gap-2 px-5 py-2 bg-foreground text-background text-[10px] font-semibold uppercase tracking-widest hover:opacity-80 hover:-translate-y-0.5 transition-all duration-300"
+          >
+            Explore <ArrowRight size={13} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
   )
 }

@@ -9,7 +9,7 @@ import { SiMongodb, SiGooglemaps, SiPostman } from "react-icons/si"
 const teamMembers = [
     {
         name: "Ashan Wijesundara",
-        role: "Full Stack Developer",
+        role: "Full Stack Developer / UI & UX Designer ",
         github: "https://github.com/AshanWijesundara7",
         linkedin: "https://www.linkedin.com/in/ashan-wijesundara-36b80431a",
         instagram: "https://www.instagram.com/malidu.a",
@@ -17,7 +17,7 @@ const teamMembers = [
     },
     {
         name: "Vihanga Randima",
-        role: "Backend Developer",
+        role: "Full Stack Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
@@ -33,7 +33,7 @@ const teamMembers = [
     },
     {
         name: "Tishini Maneesha",
-        role: "UI/UX Designer",
+        role: "Frontend Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
@@ -41,7 +41,7 @@ const teamMembers = [
     },
     {
         name: "Sasini Yashoba",
-        role: "Mobile Developer",
+        role: "Frontend Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
@@ -49,7 +49,7 @@ const teamMembers = [
     },
     {
         name: "Tashmith Mesith",
-        role: "QA Engineer",
+        role: "Frontend Developer",
         github: "https://github.com/",
         linkedin: "https://linkedin.com/",
         instagram: "https://instagram.com/",
